@@ -1,43 +1,41 @@
 🧠 Live Quant Pair Trading Decision System
-========================================
+📈 Real-Time Statistical Arbitrage Analytics using Binance Futures
 
-Real-Time Statistical Arbitrage Analytics using Binance Futures
+This is not a charting application.
 
-This is NOT a charting application.
-It is a real-time decision-support system for statistical mean-reversion trading, built directly on live market microstructure data.
+It is a real-time decision-support system for mean-reversion pair trading, built directly on live market microstructure data.
 
-────────────────────────────────────────────────────────────────────
-PROBLEM STATEMENT & MOTIVATION
-────────────────────────────────────────────────────────────────────
+🎯 Problem Statement & Motivation
 
-Most existing pair-trading dashboards suffer from critical design flaws:
+Most existing pair-trading dashboards suffer from fundamental design flaws:
 
-• Dependence on static or pre-downloaded datasets  
-• Over-emphasis on visualization instead of decision logic  
-• Hidden assumptions buried inside aggregated indicators  
+❌ Dependence on static or pre-downloaded datasets
+
+❌ Over-emphasis on visualization instead of decision logic
+
+❌ Hidden assumptions buried inside aggregated indicators
 
 This project is engineered to explicitly answer a trader’s core question:
 
-“Is this pair tradable RIGHT NOW — and what statistical evidence supports that decision?”
+“Is this pair tradable right now — and what statistical evidence supports that decision?”
 
-Every architectural and analytical choice is made in service of this question.
+Every architectural and analytical choice in this system exists to support that question.
 
-────────────────────────────────────────────────────────────────────
-SYSTEM CAPABILITIES (HIGH LEVEL)
-────────────────────────────────────────────────────────────────────
+⚙️ System Capabilities (High Level)
 
-• Streams LIVE trade-level data from Binance Futures  
-• Converts raw ticks into statistically structured signals  
-• Continuously validates mean-reversion viability  
-• Explicitly separates live (in-progress) and confirmed (historical) state  
-• Produces actionable trade context instead of opaque indicators  
+📡 Streams live trade-level data from Binance Futures
 
-No mock data. No CSV ingestion. No delayed polling APIs.
+🧮 Converts raw ticks into statistically structured signals
 
-────────────────────────────────────────────────────────────────────
-ARCHITECTURE OVERVIEW
-────────────────────────────────────────────────────────────────────
+🔁 Continuously evaluates mean-reversion validity
 
+🧠 Explicitly separates live (in-progress) and confirmed (historical) state
+
+🎯 Produces actionable trade context, not opaque indicators
+
+No simulated data. No CSV ingestion. No delayed polling APIs.
+
+🧩 Architecture Overview
 Binance Futures WebSocket (Trades)
         ↓
 In-Memory Tick Buffer        (Live State)
@@ -50,184 +48,175 @@ Statistical Analytics Engine
         ↓
 Trader Decision Interface
 
+
 Design Principle:
+
 Ticks provide immediacy; candles provide statistical stability.
 
-────────────────────────────────────────────────────────────────────
-TECHNOLOGY STACK
-────────────────────────────────────────────────────────────────────
+🛠️ Technology Stack
+Layer	Technology	Rationale
+📡 Data Feed	Binance WebSocket	True real-time trade data
+🧮 Processing	Pandas, NumPy	Vectorized time-series analytics
+📊 Statistics	Statsmodels	Econometric rigor
+💾 Storage	SQLite	Lightweight & deterministic
+🖥️ UI	Streamlit	Fast iteration with live refresh
+📈 Visualization	Altair	Declarative, low-noise visuals
+🚀 Setup & Execution
+1️⃣ Clone Repository
+git clone https://github.com/<your-username>/live-quant-pair-trading-dashboard.git
+cd live-quant-pair-trading-dashboard
 
-Layer            Technology        Rationale
-------------------------------------------------------------
-Data Feed        Binance WebSocket True real-time trade data
-Processing       Pandas, NumPy     Vectorized analytics
-Statistics       Statsmodels       Econometric rigor
-Storage          SQLite            Lightweight & deterministic
-UI               Streamlit         Live refresh, fast iteration
-Visualization    Altair            Clean, declarative visuals
+2️⃣ Create Virtual Environment
+python -m venv venv
+venv\Scripts\activate
 
-────────────────────────────────────────────────────────────────────
-SETUP & EXECUTION
-────────────────────────────────────────────────────────────────────
+3️⃣ Install Dependencies
+pip install -r requirements.txt
 
-1. Clone Repository
-   git clone https://github.com/<your-username>/live-quant-pair-trading-dashboard.git
-   cd live-quant-pair-trading-dashboard
+4️⃣ Run Application
+streamlit run app.py
 
-2. Create Environment
-   python -m venv venv
-   venv\Scripts\activate
+📡 Live Data Ingestion Model
 
-3. Install Dependencies
-   pip install -r requirements.txt
+Subscribes to Binance Futures trade WebSocket streams
 
-4. Run Application
-   streamlit run app.py
+Each trade is:
 
-────────────────────────────────────────────────────────────────────
-LIVE DATA INGESTION MODEL
-────────────────────────────────────────────────────────────────────
+🧠 Buffered in-memory for tick-level analytics
 
-• Subscribes to Binance Futures trade WebSocket streams  
-• Each trade is:
-    - Buffered in-memory for tick-level analytics
-    - Persisted to SQLite for candle construction
+💾 Persisted to SQLite for candle construction
 
-• UI refresh loop is DECOUPLED from ingestion to avoid:
-    - UI thread blocking
-    - Fake “live” charts
-    - Candle repainting & look-ahead bias
+The UI refresh loop is decoupled from ingestion to prevent:
 
-────────────────────────────────────────────────────────────────────
-CORE QUANTITATIVE METHODOLOGY
-────────────────────────────────────────────────────────────────────
+❌ UI thread blocking
 
-1. HEDGE RATIO (POSITION NEUTRALIZATION)
-------------------------------------------------------------
+❌ Artificial “live” charts
+
+❌ Candle repainting & look-ahead bias
+
+📐 Core Quantitative Methodology
+🔹 1. Hedge Ratio — Position Neutralization
+
 Estimated using Ordinary Least Squares (OLS):
 
-Y_t = α + βX_t
+𝑌
+𝑡
+=
+𝛼
++
+𝛽
+𝑋
+𝑡
+Y
+t
+	​
+
+=α+βX
+t
+	​
+
 
 Where:
-Y_t → Price of Symbol A  
-X_t → Price of Symbol B  
-β   → Hedge Ratio  
 
-Trader Interpretation:
-A hedge ratio of -0.38 implies:
+Yₜ → Price series of Symbol A
+
+Xₜ → Price series of Symbol B
+
+β → Hedge Ratio
+
+Trader interpretation:
+A hedge ratio of −0.38 implies:
+
 Short 1 unit of A, Long 0.38 units of B for relative neutrality.
 
-The hedge ratio is continuously re-estimated as new data arrives.
+The hedge ratio is re-estimated continuously as new data arrives.
 
-------------------------------------------------------------
-2. SPREAD CONSTRUCTION (TRADABLE OBJECT)
-------------------------------------------------------------
-Spread_t = Y_t − βX_t
+🔹 2. Spread Construction — The Tradable Object
+𝑆
+𝑝
+𝑟
+𝑒
+𝑎
+𝑑
+𝑡
+=
+𝑌
+𝑡
+−
+𝛽
+𝑋
+𝑡
+Spread
+t
+	​
 
-The spread represents RELATIVE MISPRICING, not price direction.
+=Y
+t
+	​
 
-• Random walk → No statistical edge  
-• Mean oscillation → Potential convergence trade  
+−βX
+t
+	​
 
-------------------------------------------------------------
-3. Z-SCORE (NORMALIZED DEVIATION)
-------------------------------------------------------------
-Z_t = (Spread_t − μ) / σ
 
-• Computed using rolling mean & volatility  
-• Normalizes deviations across regimes  
-• Primary entry / exit signal  
+The spread represents relative mispricing, not price direction.
+
+📉 Random walk → No statistical edge
+
+🔁 Mean oscillation → Potential convergence trade
+
+🔹 3. Z-Score — Normalized Deviation Metric
+𝑍
+𝑡
+=
+𝑆
+𝑝
+𝑟
+𝑒
+𝑎
+𝑑
+𝑡
+−
+𝜇
+𝜎
+Z
+t
+	​
+
+=
+σ
+Spread
+t
+	​
+
+−μ
+	​
+
+
+Uses rolling mean & volatility
+
+Normalizes deviations across regimes
+
+Primary entry / exit trigger
 
 The system explicitly separates:
-• Live Z-Score (tick-based) → Anticipation
-• Confirmed Z-Score (candle-based) → Validation
 
-------------------------------------------------------------
-4. STATIONARITY VALIDATION (ADF TEST)
-------------------------------------------------------------
-Augmented Dickey–Fuller test applied to spread:
+⚡ Live Z-Score (tick-based) → Anticipation
 
-• p < 0.05 → Mean-reverting  
-• p ≥ 0.05 → Trending / unstable  
+✅ Confirmed Z-Score (candle-based) → Validation
 
-Acts as a regime filter to prevent trading false edges.
+🔹 4. Stationarity Validation — ADF Test
 
-------------------------------------------------------------
-5. ROLLING CORRELATION (RELATIONSHIP HEALTH)
-------------------------------------------------------------
+The Augmented Dickey–Fuller (ADF) test is applied to the spread:
+
+p < 0.05 → Mean-reverting
+
+p ≥ 0.05 → Trending / unstable
+
+Acts as a regime filter, preventing trades on illusory edges.
+
+🔹 5. Rolling Correlation — Relationship Integrity
+
 Rolling correlation monitors structural breakdowns.
 
-High Z-score + Weak correlation = TRAP, not opportunity.
-
-────────────────────────────────────────────────────────────────────
-DASHBOARD DESIGN PHILOSOPHY
-────────────────────────────────────────────────────────────────────
-
-WHAT THIS SYSTEM INTENTIONALLY AVOIDS:
-• Price prediction
-• Curve-fitted backtests
-• Indicator stacking
-
-WHAT IT EXPLICITLY PROVIDES:
-• Decision-critical statistical evidence
-• Clear separation of live vs confirmed state
-• Transparent reasoning for trade validity
-
-────────────────────────────────────────────────────────────────────
-KEY INTERFACE COMPONENTS
-────────────────────────────────────────────────────────────────────
-
-1. LIVE TRADING METRICS
-------------------------------------------------------------
-• Hedge Ratio
-• Spread
-• Z-Score
-• Rolling Correlation
-• Regime Classification
-
-Designed for rapid situational awareness.
-
-------------------------------------------------------------
-2. TRADE READINESS CHECKLIST
-------------------------------------------------------------
-Binary trader filters:
-• Is deviation meaningful?
-• Is spread stationary?
-• Is relationship stable?
-
-Prevents low-quality trades.
-
-------------------------------------------------------------
-3. TRADE TRIGGER DISTANCE
-------------------------------------------------------------
-Shows distance to entry threshold.
-Encourages anticipation over reaction.
-
-------------------------------------------------------------
-4. DECISION SNAPSHOT TABLE (DYNAMIC)
-------------------------------------------------------------
-LIVE row → Tick-based reality  
-Historical rows → Confirmed candle analytics  
-
-Avoids treating incomplete candles as facts.
-
-------------------------------------------------------------
-5. VISUAL ANALYTICS (CONFIRMATORY)
-------------------------------------------------------------
-Charts support decisions — they do not drive them.
-
-• Normalized price behavior
-• Spread with statistical bands
-• Z-score vs thresholds
-
-────────────────────────────────────────────────────────────────────
-ENGINEERING DESIGN PRINCIPLES
-────────────────────────────────────────────────────────────────────
-
-• Explicit tick vs candle separation
-• No forward-filled data
-• Conservative warm-up enforcement
-• Stateless UI refresh
-• Minimal but robust indicator set
-
-These reflect real trading constraints — not academic demos.
+High Z-Score + Weak Correlation = Trap, not opportunity
