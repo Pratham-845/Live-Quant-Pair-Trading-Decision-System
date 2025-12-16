@@ -59,16 +59,15 @@ No simulated data. No CSV ingestion. No delayed polling APIs.
 
 ## **🛠️ Technology Stack**
 
+| Layer            | Technology        | Rationale                        |
+| ---------------- | ----------------- | -------------------------------- |
+| 📡 Data Feed     | Binance WebSocket | True real-time trade data        |
+| 🧮 Processing    | Pandas, NumPy     | Vectorized time-series analytics |
+| 📊 Statistics    | Statsmodels       | Econometric rigor                |
+| 💾 Storage       | SQLite            | Lightweight & deterministic      |
+| 🖥️ UI           | Streamlit         | Fast iteration with live refresh |
+| 📈 Visualization | Altair            | Declarative, low-noise visuals   |
 
-
-Layer            Technology        Rationale
-------------------------------------------------------------
-Data Feed        Binance WebSocket True real-time trade data
-Processing       Pandas, NumPy     Vectorized analytics
-Statistics       Statsmodels       Econometric rigor
-Storage          SQLite            Lightweight & deterministic
-UI               Streamlit         Live refresh, fast iteration
-Visualization    Altair            Clean, declarative visuals
 
 
 
