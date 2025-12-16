@@ -50,29 +50,8 @@ No simulated data. No CSV ingestion. No delayed polling APIs.
 **🧩 Architecture Overview**
 ---
 
+<img width="2003" height="488" alt="diagram-export-12-17-2025-12_12_00-AM" src="https://github.com/user-attachments/assets/afb7330a-dd4b-438a-92dc-d1f8b7805504" />
 
-
-Binance Futures WebSocket (Trades)
-
-&nbsp;       ↓
-
-In-Memory Tick Buffer        \[Live State]
-
-&nbsp;       ↓
-
-SQLite Tick Store           \[Persistence Layer]
-
-&nbsp;       ↓
-
-Timeframe Resampling        \[Confirmed Candles]
-
-&nbsp;       ↓
-
-Statistical Analytics Engine
-
-&nbsp;       ↓
-
-Trader Decision Interface
 
 
 
